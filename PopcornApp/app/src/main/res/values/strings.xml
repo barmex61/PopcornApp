@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PopcornApp</string>
+    <string name="p0pc0rn_time">P0PC0RN Time</string>
+    <string name="movies">MOVIES</string>
+    <string name="tv_shows">TV SHOWS</string>
+    <string name="tv_show">TV SHOW</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
