@@ -83,5 +83,13 @@ class DetailsFragmentViewModel(application: Application) : AndroidViewModel(appl
             }
         }
     }
+    fun getVideos(name:String,id:Int)= liveData(Dispatchers.IO){
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(movieHelper.getVideos(name,id)))
+        }catch (e:Exception){
+            emit(Resource.error(null,e.message?:"Error Occurred!"))
+        }
+    }
 
 }

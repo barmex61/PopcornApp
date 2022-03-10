@@ -65,11 +65,13 @@
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/viewPager2"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/ratingBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="20dp"
             android:visibility="gone"
+            android:layout_marginTop="100dp"
             android:id="@+id/youtuber"
             />
         <RatingBar
@@ -84,7 +86,7 @@
             android:numStars="5"
             android:stepSize="1"
             android:id="@+id/ratingBar"
-            app:layout_constraintBottom_toBottomOf="@id/posterImage"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
         <TextView
             android:layout_width="wrap_content"
@@ -115,7 +117,7 @@
             android:layout_height="180dp"
             android:id="@+id/viewPager2"
             android:background="@drawable/view_background2"
-            app:layout_constraintBottom_toBottomOf="@id/posterImage"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
@@ -466,6 +468,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:orientation="horizontal"
             android:gravity="bottom"
+            android:id="@+id/linearLayout"
             android:background="@drawable/view_background"
             >
             <ImageView

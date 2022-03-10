@@ -8,6 +8,10 @@
             type="Boolean" />
         <import type="android.view.View"/>
     </data>
+<androidx.drawerlayout.widget.DrawerLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawableLayout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,8 +19,6 @@
         android:background="#000000"
         android:layoutAnimation="@anim/layout_animation"
         tools:context=".view.MainFragment">
-
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -62,7 +64,27 @@
                 android:textStyle="bold"
                 android:includeFontPadding="false"
                 android:ellipsize="none"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:id="@+id/headerText"/>
+            <EditText
+                android:id="@+id/searchText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="9"
+                android:fontFamily="@font/adamina"
+                android:textSize="19sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:includeFontPadding="false"
+                android:ellipsize="none"
+                android:maxLines="1"
+                android:inputType="text"
+                android:hint="Enter Tv Show"
+                android:textColorHint="#7B81A3"
+                android:importantForAutofill="no"
+                android:imeOptions="actionDone"
+                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="30dp"
@@ -133,8 +155,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/movieButtonSelect"
                 android:contentDescription="@string/app_name" />
-            <View
-                android:layout_width="110dp"
+            <View android:layout_width="110dp"
                 android:layout_height="2dp"
                 app:layout_constraintTop_toBottomOf="@id/tvShowButton"
                 app:layout_constraintStart_toStartOf="@id/tvShowButton"
@@ -150,6 +171,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="@{isLoading?View.VISIBLE:View.INVISIBLE,default=invisible}"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:id="@+id/navigationView"
+        app:menu="@menu/navigation_menu"
+        app:headerLayout="@layout/navigation_header_layout"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:subheaderColor="@color/white"
+        android:background="#9942B4FF"
+       >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingBottom="40dp"
+                android:layout_gravity="bottom"
+                android:background="#000000"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="POPCORN Tıme"
+                    android:textSize="25sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/arizonia"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:ellipsize="none"
+                    />
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/popcorn2"
+                    app:riv_corner_radius="15dp"
+
+                    android:layout_marginEnd="15dp"
+                    />
+            </LinearLayout>
+
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>
 </layout>
 

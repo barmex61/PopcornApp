@@ -60,6 +60,7 @@ class DetailsFragment : Fragment() {
     private var isItInWatchList:Boolean?=false
     private lateinit var roomEntity: RoomEntity
     private var counter=0
+    private var videoId:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,6 +171,19 @@ class DetailsFragment : Fragment() {
                     }
                 }
 
+            }
+            viewModel.getVideos("movie",selectedId).observe(viewLifecycleOwner){resource->
+                if(resource!=null){
+                    when(resource.status){
+                        Status.SUCCESS->{
+                            resource.data?.let {
+                                videoId=it.videoResults[0].key
+                            }
+                        }else ->{
+                            binding.isLoading=true
+                        }
+                    }
+                }
             }
         }
         selectedTvShowId?.let {
@@ -417,8 +431,10 @@ class DetailsFragment : Fragment() {
             binding.youtuber.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
                     super.onReady(youTubePlayer)
-                    val id="gXWXKjR-qII"
-                    youTubePlayer.loadVideo(id,0f)
+                    videoId?.let {
+                        youTubePlayer.loadVideo(it,0f)
+                    }
+
                 }
             })
 

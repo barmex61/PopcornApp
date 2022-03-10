@@ -1,8 +1,17 @@
 package com.fatih.popcornapp.util
 
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.view.View
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.navigation.Navigation
+import androidx.palette.graphics.Palette
+import com.fatih.popcornapp.R
+import com.fatih.popcornapp.adapter.MovieAdapter
+import com.fatih.popcornapp.view.MainFragmentDirections
 
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -13,7 +22,8 @@ fun getImage(view: ImageView, url:String?){
     try {
         url?.let {
 
-            Picasso.get().load("https://www.themoviedb.org/t/p/w600_and_h900_bestv2$url").noFade()
+            Picasso.get().load("https://www.themoviedb.org/t/p/w600_and_h900_bestv2$url").noFade().placeholder(
+                R.drawable.popcorn2)
                 .into(view,object : Callback {
                     override fun onSuccess() {
                         view.animate().alpha(1f).setDuration(600).start()
