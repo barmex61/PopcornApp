@@ -27,11 +27,12 @@ import com.fatih.popcornapp.model.ResultTvShow
 import com.fatih.popcornapp.model.SearchResult
 import com.fatih.popcornapp.resource.Status
 import com.fatih.popcornapp.viewModel.MainFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private  var movieList=ArrayList<ResultMovies>()
@@ -178,7 +179,8 @@ class MainFragment : Fragment() {
     }
     private fun observeMovieLiveData(currentPage:Int){
             if(searchText.isEmpty()){
-                viewModel.getMostPopularMovies(currentPage).observe(viewLifecycleOwner){ resource->
+                viewModel.getMostPopularMovies(currentPage)
+                viewModel.mostPopularMovies.observe(viewLifecycleOwner){ resource->
                     if (resource!=null){
                         if(resource.status==Status.LOADING){
 
@@ -212,7 +214,8 @@ class MainFragment : Fragment() {
             binding.moviesRecyclerView.adapter=searchAdapter
             isBinded=true
         }
-        viewModel.search(name,query,page).observe(viewLifecycleOwner){ resource->
+        viewModel.search(name,query,page)
+        viewModel.searchList.observe(viewLifecycleOwner){ resource->
                 if(resource!=null){
                     when(resource.status){
                         Status.LOADING->{
@@ -254,7 +257,8 @@ class MainFragment : Fragment() {
     private fun observeTvShowLiveData(currentPage: Int){
         if(searchText.isEmpty()){
             binding.isLoading=true
-            viewModel.getMostPopularTvShows(currentPage).observe(viewLifecycleOwner){ resource->
+            viewModel.getMostPopularTvShows(currentPage)
+            viewModel.mostPopularTvShows.observe(viewLifecycleOwner){ resource->
                 if (resource!=null){
                     if(resource.status==Status.LOADING){
 

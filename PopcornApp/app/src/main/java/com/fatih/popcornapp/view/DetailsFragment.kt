@@ -28,17 +28,14 @@ import com.fatih.popcornapp.model.*
 import com.fatih.popcornapp.resource.Status
 import com.fatih.popcornapp.viewModel.DetailsFragmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_details.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
-
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
     private lateinit var viewModel:DetailsFragmentViewModel
     private lateinit var binding:FragmentDetailsBinding
@@ -78,7 +75,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, _, _, _ -> layoutHeader.y= nestedScrollView.scrollY.toFloat()-nestedScrollView.scrollY.toFloat()/2.6f })
+        binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, _, _, _ -> binding.layoutHeader.y= binding.nestedScrollView.scrollY.toFloat()-binding.nestedScrollView.scrollY.toFloat()/2.6f })
     }
     private fun doInitialization(){
         viewModel=ViewModelProvider(this)[DetailsFragmentViewModel::class.java]
@@ -110,7 +107,8 @@ class DetailsFragment : Fragment() {
     private fun observeMovieLiveData(){
         binding.isLoading=true
         selectedMovieId?.let { selectedId->
-            viewModel.getMovieDetails(selectedId).observe(viewLifecycleOwner){ resource->
+            viewModel.getMovieDetails(selectedId)
+            viewModel.movieDetails.observe(viewLifecycleOwner){ resource->
                 if(resource!=null){
                     when (resource.status) {
                         Status.LOADING -> {
@@ -141,7 +139,8 @@ class DetailsFragment : Fragment() {
                 }
 
             }
-            viewModel.getMovieImages(selectedId).observe(viewLifecycleOwner){ resource->
+            viewModel.getMovieImages(selectedId)
+            viewModel.movieImages.observe(viewLifecycleOwner){ resource->
                 if(resource!=null){
                     when(resource.status){
 
@@ -162,7 +161,8 @@ class DetailsFragment : Fragment() {
                                 binding.imgPlay.visibility=View.VISIBLE
                                 binding.saveImage.visibility=View.VISIBLE
                                 binding.trailerImage.visibility=View.VISIBLE
-                                movieImageList.addAll(it)
+
+                                movieImageList.addAll(it.moviePosters)
                                 if(oldSize!=movieImageList.size){
                                     getImagesFromPicasso(movieImageList,null)
                                 }
@@ -172,7 +172,8 @@ class DetailsFragment : Fragment() {
                 }
 
             }
-            viewModel.getVideos("movie",selectedId).observe(viewLifecycleOwner){resource->
+            viewModel.getVideos("movie",selectedId)
+            viewModel.videos.observe(viewLifecycleOwner){resource->
                 if(resource!=null){
                     when(resource.status){
                         Status.SUCCESS->{
@@ -187,7 +188,8 @@ class DetailsFragment : Fragment() {
             }
         }
         selectedTvShowId?.let {
-            viewModel.getTvShowDetails(it).observe(viewLifecycleOwner){resource->
+            viewModel.getTvShowDetails(it)
+            viewModel.tvShowDetails.observe(viewLifecycleOwner){resource->
                 if(resource!=null){
                     when (resource.status) {
                         Status.LOADING -> {
@@ -222,7 +224,8 @@ class DetailsFragment : Fragment() {
                     }
                 }
             }
-            viewModel.getTvShowImages(it).observe(viewLifecycleOwner){resource->
+            viewModel.getTvShowImages(it)
+            viewModel.tvShowImages.observe(viewLifecycleOwner){resource->
 
                 if(resource!=null){
                     when(resource.status){
@@ -243,7 +246,7 @@ class DetailsFragment : Fragment() {
                                 binding.imgPlay.visibility=View.VISIBLE
                                 binding.saveImage.visibility=View.VISIBLE
                                 binding.trailerImage.visibility=View.VISIBLE
-                                tvShowImageList.addAll(it)
+                                tvShowImageList.addAll(it.tvShowPosters)
                                 if(oldSize!=tvShowImageList.size){
                                     getImagesFromPicasso(null,tvShowImageList)
                                 }

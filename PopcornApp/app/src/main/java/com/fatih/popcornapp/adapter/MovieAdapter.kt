@@ -13,11 +13,9 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.fatih.popcornapp.R
 import com.fatih.popcornapp.databinding.MovieRecyclerviewRowBinding
-import com.fatih.popcornapp.databinding.TvshowRecyclerviewRowBinding
 import com.fatih.popcornapp.model.ResultMovies
-import com.fatih.popcornapp.model.ResultTvShow
 import com.fatih.popcornapp.view.MainFragmentDirections
-import kotlinx.android.synthetic.main.fragment_details.*
+
 
 class MovieAdapter(var movieList:ArrayList<ResultMovies>): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 

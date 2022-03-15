@@ -18,12 +18,14 @@ import com.fatih.popcornapp.adapter.WatchListAdapter
 import com.fatih.popcornapp.databinding.FragmentWatchListBinding
 import com.fatih.popcornapp.resource.Status
 import com.fatih.popcornapp.viewModel.WatchListFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class WatchListFragment : Fragment() {
 
     private lateinit var viewModel:WatchListFragmentViewModel
@@ -54,32 +56,16 @@ class WatchListFragment : Fragment() {
     }
     private fun observeLiveData(){
         binding.isLoading=true
-        viewModel.getAllWatchListData().observe(viewLifecycleOwner){resource->
 
-            if(resource!=null){
-                when(resource.status){
-                    Status.LOADING->{
-                        binding.watchListRecyclerView.visibility=View.GONE
-                        binding.isLoading=true
-                        println("loading")
-                    }
-                    Status.ERROR->{
-                        binding.watchListRecyclerView.visibility=View.GONE
-                        binding.isLoading=false
-                        println("error")
-                    }
-                    Status.SUCCESS->{
-                        binding.watchListRecyclerView.visibility=View.VISIBLE
-                        binding.isLoading=false
-                        resource.data?.let {
-                            adapter= WatchListAdapter(ArrayList(it))
-                            binding.watchListRecyclerView.adapter=adapter
-                        }
-                    }
+            viewModel.watchList.observe(viewLifecycleOwner){resource->
+
+                binding.watchListRecyclerView.visibility=View.VISIBLE
+                binding.isLoading=false
+                resource.let {
+                    adapter= WatchListAdapter(ArrayList(it))
+                    binding.watchListRecyclerView.adapter=adapter
                 }
             }
-
-        }
     }
 
     private fun setBackgroundColor(){

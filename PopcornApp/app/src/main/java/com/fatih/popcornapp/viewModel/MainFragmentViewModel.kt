@@ -1,42 +1,55 @@
 package com.fatih.popcornapp.viewModel
 
-import android.app.Application
 import androidx.lifecycle.*
+import com.fatih.popcornapp.model.MostPopularMovies
+import com.fatih.popcornapp.model.MostPopularTvShows
+import com.fatih.popcornapp.model.SearchModel
+import com.fatih.popcornapp.repositories.ModelRepositoriesInterface
 import com.fatih.popcornapp.resource.Resource
-import com.fatih.popcornapp.service.MovieHelper
-import com.fatih.popcornapp.service.MovieService
-import kotlinx.coroutines.Dispatchers
+import com.fatih.popcornapp.util.API_KEY
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@HiltViewModel
+class MainFragmentViewModel @Inject constructor(private val repositories: ModelRepositoriesInterface) : ViewModel() {
 
+    private val _mostPopularMovies=MutableLiveData<Resource<MostPopularMovies>>()
+    val mostPopularMovies:LiveData<Resource<MostPopularMovies>>
+        get() = _mostPopularMovies
 
-class MainFragmentViewModel(application: Application) : AndroidViewModel(application) {
-    private val movieHelper=MovieHelper(MovieService.movieApi)
-    fun getMostPopularMovies(page:Int)= liveData(Dispatchers.IO){
+    private val _mostPopularTvShow=MutableLiveData<Resource<MostPopularTvShows>>()
+    val mostPopularTvShows:LiveData<Resource<MostPopularTvShows>>
+        get() = _mostPopularTvShow
 
-        emit(Resource.loading(null))
-                try {
-                emit(Resource.success(movieHelper.getMostPopularMovies(page)))
+    private val _searchList=MutableLiveData<Resource<SearchModel>>()
+    val searchList:LiveData<Resource<SearchModel>>
+        get() = _searchList
 
-                }catch (e:Exception){
-                emit(Resource.error(null,e.message?:"Error Occurred!"))
-                }
-
-    }
-
-    fun getMostPopularTvShows(page: Int)= liveData(Dispatchers.IO){
-        emit(Resource.loading(null))
+    fun getMostPopularMovies(page:Int)=viewModelScope.launch{
+        _mostPopularMovies.value= Resource.loading(null)
         try {
-            emit(Resource.success(movieHelper.getMostPopularTvShows(page)))
+            _mostPopularMovies.value=repositories.getMostPopularMovies(page)
         }catch (e:Exception){
-            emit(Resource.error(null,e.message?:"Error Occurred!"))
+            _mostPopularMovies.value= Resource.error(null,e.message)
         }
     }
-    fun search(name:String,query:String,page:Int)= liveData(Dispatchers.IO){
-        emit(Resource.loading(null))
+
+    fun getMostPopularTvShows(page: Int)=viewModelScope.launch{
+        _mostPopularTvShow.value= Resource.loading(null)
         try {
-            emit(Resource.success(movieHelper.search(name,"ae624ef782f69d5092464dffa234178b",query,page)))
+            _mostPopularTvShow.value=repositories.getMostPopularTvShows(page)
         }catch (e:Exception){
-            emit(Resource.error(null,e.message?:"Error Occurred !"))
+            _mostPopularTvShow.value= Resource.error(null,e.message)
+        }
+    }
+
+    fun search(name:String,query:String,page:Int)= viewModelScope.launch{
+        _searchList.value= Resource.loading(null)
+        try {
+            _searchList.value=repositories.search(name, API_KEY,query,page)
+        }catch (e:Exception){
+            _searchList.value= Resource.error(null,e.message)
         }
     }
 

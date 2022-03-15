@@ -1,94 +1,119 @@
 package com.fatih.popcornapp.viewModel
 
-import android.app.Application
 import androidx.lifecycle.*
-import com.fatih.popcornapp.model.RoomEntity
+import com.fatih.popcornapp.model.*
+import com.fatih.popcornapp.repositories.ModelRepositoriesInterface
 import com.fatih.popcornapp.resource.Resource
-import com.fatih.popcornapp.room.RoomDb
-import com.fatih.popcornapp.service.MovieHelper
-import com.fatih.popcornapp.service.MovieService
+import com.fatih.popcornapp.util.API_KEY
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class DetailsFragmentViewModel(application: Application) : AndroidViewModel(application) {
-    private val movieHelper=MovieHelper(MovieService.movieApi)
-    private val roomDao=RoomDb.invoke(application).roomDao()
-    var roomEntity=MutableLiveData<RoomEntity>()
-    fun getMovieDetails(id:Int)= liveData(Dispatchers.IO){
+@HiltViewModel
+class DetailsFragmentViewModel @Inject constructor(private val repositories: ModelRepositoriesInterface) : ViewModel() {
 
-            emit(Resource.loading(null))
+    private val _movieDetails=MutableLiveData<Resource<MovieDetail>>()
+    val movieDetails:LiveData<Resource<MovieDetail>>
+        get() = _movieDetails
+
+    private val _tvShowDetails=MutableLiveData<Resource<TvShowDetail>>()
+    val tvShowDetails:LiveData<Resource<TvShowDetail>>
+        get() = _tvShowDetails
+
+    private val _movieImages=MutableLiveData<Resource<MovieImages>>()
+    val movieImages:LiveData<Resource<MovieImages>>
+        get() = _movieImages
+
+    private val _tvShowImages=MutableLiveData<Resource<TvShowImages>>()
+    val tvShowImages:LiveData<Resource<TvShowImages>>
+        get() = _tvShowImages
+
+    private val _videos=MutableLiveData<Resource<VideoResponse>>()
+    val videos:LiveData<Resource<VideoResponse>>
+        get() = _videos
+
+    private val _controlMessage=MutableLiveData<Resource<String>>()
+    val controlMessage:LiveData<Resource<String>>
+        get() = _controlMessage
+
+
+    val roomEntity=MutableLiveData<RoomEntity>()
+
+
+    fun getMovieDetails(id:Int)= viewModelScope.launch{
+        _movieDetails.value= Resource.loading(null)
         try {
-            emit(Resource.success(movieHelper.getMovieDetail(id,"ae624ef782f69d5092464dffa234178b")))
+            _movieDetails.value=repositories.getMovieDetail(id, API_KEY)
         }catch (e:Exception){
-            emit(Resource.error(null,e.message?:"Error Occurred"))
+            _movieDetails.value= Resource.error(null,e.message)
         }
     }
-    fun getTvShowDetails(id:Int)= liveData(Dispatchers.IO){
+    fun getTvShowDetails(id:Int)=viewModelScope.launch{
 
-        emit(Resource.loading(null))
+        _tvShowDetails.value= Resource.loading(null)
         try {
-            emit(Resource.success(movieHelper.getTvShowDetail(id,"ae624ef782f69d5092464dffa234178b")))
+            _tvShowDetails.value=repositories.getTvShowDetail(id, API_KEY)
         }catch (e:Exception){
-            emit(Resource.error(null,e.message?:"Error Occurred!"))
+            _tvShowDetails.value= Resource.error(null,e.message)
         }
     }
-    fun getMovieImages(id:Int)= liveData(Dispatchers.IO){
-        emit(Resource.loading(null))
+    fun getMovieImages(id:Int)= viewModelScope.launch{
+        _movieImages.value= Resource.loading(null)
         try {
-            emit(Resource.success(movieHelper.getMovieImages(id).moviePosters))
+           _movieImages.value=repositories.getMovieImages(id)
         }catch (e:Exception){
-            emit(Resource.error(null,e.message?:"Error Occurred!"))
+            _movieImages.value= Resource.error(null,e.message)
         }
     }
-    fun getTvShowImages(id:Int)= liveData(Dispatchers.IO){
-        emit(Resource.loading(null))
+    fun getTvShowImages(id:Int)=viewModelScope.launch{
+        _tvShowImages.value= Resource.loading(null)
         try {
-            emit(Resource.success(movieHelper.getTvShowImages(id).tvShowPosters))
+            _tvShowImages.value=repositories.getTvShowImages(id)
         }catch (e:Exception){
-            emit(Resource.error(null,e.message?:"Error Occurred!"))
+            _tvShowImages.value=Resource.error(null,e.message)
         }
     }
-    fun isItInDatabase(id:Int){
-
-        viewModelScope.launch(Dispatchers.Default){
+    fun isItInDatabase(id:Int)=viewModelScope.launch(Dispatchers.Main){
+            _controlMessage.value= Resource.error("message","sa")
             try {
-                val room=roomDao.getSelectedTvShow(id)
-                withContext(Dispatchers.Main){
-                    roomEntity.value=room
-                    println(roomEntity.value)
+                repositories.getSelectedTvShow(id)?.let {
+
+                    roomEntity.value=it
+                    _controlMessage.postValue( Resource.success("Success"))
+
                 }
-                println(roomEntity)
+
             }catch (e:Exception){
-                println(e.message)
+                _controlMessage.postValue(Resource.error(e.message,"Failed"))
             }
-        }
 
     }
-    fun addTvShowIntoDatabase(roomEntity: RoomEntity){
-        viewModelScope.launch(Dispatchers.Default){
+    fun addTvShowIntoDatabase(roomEntity: RoomEntity)=viewModelScope.launch{
+
             try {
-                roomDao.addTvShow(roomEntity)
+                repositories.addTvShow(roomEntity)
+                _controlMessage.value= Resource.success("Success")
             }catch (e:Exception){
-                println(e.message)
+               _controlMessage.value= Resource.error(null,e.message)
             }
-        }
     }
     fun deleteTvShowFromDatabase(roomEntity: RoomEntity){
         viewModelScope.launch(Dispatchers.Default){
             try {
-                roomDao.deleteTvShow(roomEntity)
+                repositories.deleteTvShow(roomEntity)
             }catch (e:Exception){
                 println(e.message)
             }
         }
     }
-    fun getVideos(name:String,id:Int)= liveData(Dispatchers.IO){
-        emit(Resource.loading(null))
+    fun getVideos(name:String,id:Int)=viewModelScope.launch{
+        _videos.value= Resource.loading(null)
         try {
-            emit(Resource.success(movieHelper.getVideos(name,id)))
+            _videos.value=repositories.getVideos(name,id)
         }catch (e:Exception){
-            emit(Resource.error(null,e.message?:"Error Occurred!"))
+            _videos.value= Resource.error(null,e.message)
         }
     }
 

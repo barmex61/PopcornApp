@@ -1,6 +1,5 @@
 package com.fatih.popcornapp.adapter
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater

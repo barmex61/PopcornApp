@@ -15,7 +15,8 @@ import com.fatih.popcornapp.view.MainFragmentDirections
 
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-
+const val BASE_URL="https://api.themoviedb.org/3/"
+const val API_KEY="ae624ef782f69d5092464dffa234178b"
 @BindingAdapter("android:imageUrl")
 fun getImage(view: ImageView, url:String?){
     view.alpha=0.2f
