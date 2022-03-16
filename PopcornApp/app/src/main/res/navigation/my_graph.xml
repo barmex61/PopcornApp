@@ -6,7 +6,7 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.fatih.popcornapp.view.MainFragment"
+        android:name="com.fatih.popcornapplication.view.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_detailsFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.fatih.popcornapp.view.DetailsFragment"
+        android:name="com.fatih.popcornapplication.view.DetailsFragment"
         android:label="DetailsFragment" >
         <action
             android:id="@+id/action_detailsFragment_to_mainFragment"
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/watchListFragment"
-        android:name="com.fatih.popcornapp.view.WatchListFragment"
+        android:name="com.fatih.popcornapplication.view.WatchListFragment"
         android:label="fragment_watch_list"
         tools:layout="@layout/fragment_watch_list" >
         <action

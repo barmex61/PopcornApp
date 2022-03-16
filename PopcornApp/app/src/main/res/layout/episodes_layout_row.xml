@@ -5,7 +5,7 @@
     <data>
         <variable
             name="tvShowSeason"
-            type="com.fatih.popcornapp.model.TvShowSeason" />
+            type="com.fatih.popcornapplication.model.TvShowSeason" />
         <variable
             name="genre"
             type="String" />

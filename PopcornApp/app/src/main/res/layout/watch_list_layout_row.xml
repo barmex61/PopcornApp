@@ -7,7 +7,7 @@
 
         <variable
             name="watchList"
-            type="com.fatih.popcornapp.model.RoomEntity" />
+            type="com.fatih.popcornapplication.model.RoomEntity" />
 
     </data>
 

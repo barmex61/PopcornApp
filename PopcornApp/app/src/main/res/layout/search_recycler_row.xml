@@ -7,7 +7,7 @@
 
         <variable
             name="result"
-            type="com.fatih.popcornapp.model.SearchResult" />
+            type="com.fatih.popcornapplication.model.SearchResult" />
         <variable
             name="releaseDate"
             type="String" />
