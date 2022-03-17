@@ -38,7 +38,7 @@ class MainFragmentTest {
     fun testNavigationMainFragmentToDetailsFragment(){
         val navController=Mockito.mock(NavController::class.java)
 
-        launchFragmentInHiltContainer<MainFragment>(factory = fragmentFactory){
+        launchFragmentInHiltContainer<MainFragment>(factory =  fragmentFactory){
             Navigation.setViewNavController(requireView(),navController)
         }
 

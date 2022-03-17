@@ -94,10 +94,10 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
 
             vibrantColor=DetailsFragmentArgs.fromBundle(it).vibrantColor
         }
-
-
         observeMovieLiveData()
+
     }
+
     private fun observeMovieLiveData(){
         binding.isLoading=true
         selectedMovieId?.let { selectedId->
