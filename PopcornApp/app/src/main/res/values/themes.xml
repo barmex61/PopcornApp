@@ -21,4 +21,7 @@
     <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
         <item name="behavior_peekHeight">500dp</item>
     </style>
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">#393636</item>
+    </style>
 </resources>

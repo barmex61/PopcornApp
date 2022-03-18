@@ -6,11 +6,10 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.net.Uri
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
@@ -33,10 +32,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapter) : Fragment() {
 
-    private lateinit var viewModel:DetailsFragmentViewModel
+    lateinit var viewModel:DetailsFragmentViewModel
     private lateinit var binding:FragmentDetailsBinding
-    private var selectedMovieId:Int?=null
-    private var selectedTvShowId:Int?=null
+    var selectedMovieId:Int?=null
+    var selectedTvShowId:Int?=null
     private var selectedTvShow:TvShowDetail?=null
     private var selectedMovie:MovieDetail?=null
     private var url:String?=null
@@ -49,7 +48,7 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
     private lateinit var episodesBottomSheetDialogBinding: SeasonsBottomSheetDialogBinding
     private lateinit var colorMatrixColorFilter: ColorMatrixColorFilter
     private var isItInWatchList:Boolean?=false
-    private lateinit var roomEntity: RoomEntity
+    lateinit var roomEntity: RoomEntity
     private var videoId:String?=null
     private var counter=0
 
@@ -57,6 +56,7 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
         super.onCreate(savedInstanceState)
         colorMatrix.setSaturation(0f)
         colorMatrixColorFilter= ColorMatrixColorFilter(colorMatrix)
+
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -70,6 +70,12 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
         super.onViewCreated(view, savedInstanceState)
 
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, _, _, _ -> binding.layoutHeader.y= binding.nestedScrollView.scrollY.toFloat()-binding.nestedScrollView.scrollY.toFloat()/2.6f })
+        val callback=object :OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
     private fun doInitialization(){
         viewModel=ViewModelProvider(this)[DetailsFragmentViewModel::class.java]

@@ -2,17 +2,20 @@ package com.fatih.popcornapplication.viewModel
 
 
 import androidx.lifecycle.*
+import androidx.room.Room
 import com.fatih.popcornapplication.model.RoomEntity
 import com.fatih.popcornapplication.repositories.ModelRepositoriesInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class WatchListFragmentViewModel @Inject constructor(private val repositories: ModelRepositoriesInterface) :ViewModel() {
+class WatchListFragmentViewModel @Inject constructor(repositories: ModelRepositoriesInterface) :ViewModel() {
 
-    private val _watchList=repositories.getAllTvShow()
-    val watchList:LiveData<List<RoomEntity>>
-        get() = _watchList
+
+       private val _watchList=repositories.getAllTvShow()
+       val watchList:LiveData<List<RoomEntity>>
+           get() = _watchList
+
 
    /* fun setBackgroundColor(context:Context,binding: FragmentWatchListBinding){
         val color=ArrayList<Int>()

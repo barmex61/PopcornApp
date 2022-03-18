@@ -3,6 +3,8 @@ package com.fatih.popcornapplication.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.fatih.popcornapplication.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

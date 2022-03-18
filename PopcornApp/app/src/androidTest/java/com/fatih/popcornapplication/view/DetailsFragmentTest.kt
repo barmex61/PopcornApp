@@ -8,7 +8,14 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.filters.MediumTest
 import com.fatih.popcornapplication.R
+import com.fatih.popcornapplication.getOrAwaitValue
 import com.fatih.popcornapplication.launchFragmentInHiltContainer
+import com.fatih.popcornapplication.model.RoomEntity
+import com.fatih.popcornapplication.repositories.FakeModelRepositoriesTest
+import com.fatih.popcornapplication.resource.Status
+import com.fatih.popcornapplication.viewModel.DetailsFragmentViewModel
+import com.fatih.popcornapplication.viewModel.WatchListFragmentViewModel
+import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -49,9 +56,25 @@ class DetailsFragmentTest {
     @Test
     fun onBackPressed(){
         val navController=Mockito.mock(NavController::class.java)
-        launchFragmentInHiltContainer<DetailsFragment>(factory = fragmentFactory)
+        launchFragmentInHiltContainer<DetailsFragment>(factory = fragmentFactory){
+            Navigation.setViewNavController(requireView(),navController)
+        }
         Espresso.pressBack()
         Mockito.verify(navController).popBackStack()
+    }
+    @Test
+    fun testAddWatchList(){
+        val entity=RoomEntity("22","22",2.2,true,1)
+        val testViewModel=DetailsFragmentViewModel(FakeModelRepositoriesTest())
+
+        launchFragmentInHiltContainer<DetailsFragment>(factory = fragmentFactory){
+            viewModel=testViewModel
+            roomEntity= entity
+        }
+
+        Espresso.onView(ViewMatchers.withId(R.id.watchList)).perform(click())
+        val response=testViewModel.controlMessage.getOrAwaitValue()
+        assertThat(response.status).isEqualTo(Status.SUCCESS)
     }
 
 }

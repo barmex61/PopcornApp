@@ -45,11 +45,23 @@ class MovieAdapter @Inject constructor(): RecyclerView.Adapter<MovieAdapter.Movi
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.binding.result=movieList[position]
-        if(movieList[position].releaseDate.isNotEmpty()&&movieList[position].releaseDate.substring(0,4).isNotEmpty()){
+        if(movieList[position].releaseDate.isNotEmpty()&&movieList[position].releaseDate.length>=4){
             holder.binding.releaseDate=movieList[position].releaseDate.substring(0,4)
+        }else{
+            holder.binding.releaseDate="null"
         }
-        holder.itemView.setOnClickListener {
-            getDominantColor(holder,it,position)
+        holder.itemView.setOnClickListener { view->
+           //  getDominantColor(holder,it,position)
+            if(holder.binding.movieImage.drawable!=null){
+                val drawable: BitmapDrawable = holder.binding.movieImage.drawable as BitmapDrawable
+                val bitmap: Bitmap =drawable.bitmap
+                Palette.Builder(bitmap).generate { it->
+                    val vibrantColor=it!!.getVibrantColor(ContextCompat.getColor(holder.itemView.context,R.color.white))
+                    val action=MainFragmentDirections.actionMainFragmentToDetailsFragment(movieList[position].id,vibrantColor,false)
+                    Navigation.findNavController(view).navigate(action)
+                    println(vibrantColor)
+                }
+            }
         }
     }
 
@@ -58,16 +70,5 @@ class MovieAdapter @Inject constructor(): RecyclerView.Adapter<MovieAdapter.Movi
     }
     class MovieViewHolder(val binding: MovieRecyclerviewRowBinding) :RecyclerView.ViewHolder(binding.root)
 
-    private fun getDominantColor(holder:MovieViewHolder,view: View,position: Int){
-        if(holder.binding.movieImage.drawable!=null){
-            val drawable: BitmapDrawable = holder.binding.movieImage.drawable as BitmapDrawable
-            val bitmap: Bitmap =drawable.bitmap
-            Palette.Builder(bitmap).generate {
-                val vibrantColor=it!!.getVibrantColor(ContextCompat.getColor(holder.itemView.context,R.color.white))
-                val action=MainFragmentDirections.actionMainFragmentToDetailsFragment(movieList[position].id,vibrantColor,false)
-                Navigation.findNavController(view).navigate(action)
-            }
-        }
-    }
 
 }

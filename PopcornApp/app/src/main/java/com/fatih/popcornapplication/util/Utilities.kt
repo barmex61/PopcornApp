@@ -9,7 +9,11 @@ import com.squareup.picasso.Picasso
 
 const val BASE_URL="https://api.themoviedb.org/3/"
 const val API_KEY="ae624ef782f69d5092464dffa234178b"
-
+val genre_list= arrayOf("Popular","Action","Adventure","Animation","Biography","Comedy","Documentary","Drama","Family","Fantasy","Film-noir","History","Horror","Music","Musical","Mystery","Romance","Sci-fi","Short","Sport","Thriller","War","Western")
+val booleanArray=BooleanArray(genre_list.size)
+val sortArray= arrayOf("Popularity","Date Added","Year")
+val qualityArray= arrayOf("360p","480p","720p","1080p")
+val booleanArray2=BooleanArray(qualityArray.size)
 @BindingAdapter("android:imageUrl")
 fun getImage(view: ImageView, url:String?){
     view.alpha=0.2f
