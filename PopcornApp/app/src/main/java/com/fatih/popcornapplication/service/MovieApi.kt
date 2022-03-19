@@ -7,14 +7,14 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApi {
-    //https://api.themoviedb.org/3/movie/popular?api_key=ae624ef782f69d5092464dffa234178b&page=2
-    //https://api.themoviedb.org/3/tv/popular?api_key=ae624ef782f69d5092464dffa234178b&page=1
+    //https://api.themoviedb.org/3/discover/tv?api_key=ae624ef782f69d5092464dffa234178b&sort_by=popularity.desc&page=1
     //https://api.themoviedb.org/3/search/movie?api_key=ae624ef782f69d5092464dffa234178b&query=Spi&page=1
     //https://api.themoviedb.org/3/tv/85552/videos?api_key=ae624ef782f69d5092464dffa234178b
-    @GET("movie/popular?api_key=ae624ef782f69d5092464dffa234178b")
-    suspend fun getMostPopularMovies(@Query("page")page:Int):Response<MostPopularMovies>
-    @GET("tv/popular?api_key=ae624ef782f69d5092464dffa234178b")
-    suspend fun getMostPopularTvShows(@Query("page")page:Int):Response<MostPopularTvShows>
+    //https://api.themoviedb.org/3/discover/movie?api_key=ae624ef782f69d5092464dffa234178b&sort_by=popularity.desc&page=1&with_genres=80
+    @GET("discover/movie?api_key=ae624ef782f69d5092464dffa234178b")
+    suspend fun getMovies(@Query("sort_by")sort_by:String,@Query("page")page:Int,@Query("with_genres")genres:String):Response<MostPopularMovies>
+    @GET("discover/tv?api_key=ae624ef782f69d5092464dffa234178b")
+    suspend fun getTvShows(@Query("sort_by")sort_by: String,@Query("page")page:Int,@Query("with_genres")genres: String):Response<MostPopularTvShows>
     @GET("movie/{id}")
     suspend fun getMovieDetails(@Path("id")id:Int, @Query("api_key")api_key:String):Response<MovieDetail>
     @GET("tv/{id}")

@@ -6,14 +6,19 @@ import androidx.databinding.BindingAdapter
 import com.fatih.popcornapplication.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.util.HashMap
 
 const val BASE_URL="https://api.themoviedb.org/3/"
 const val API_KEY="ae624ef782f69d5092464dffa234178b"
-val genre_list= arrayOf("Popular","Action","Adventure","Animation","Biography","Comedy","Documentary","Drama","Family","Fantasy","Film-noir","History","Horror","Music","Musical","Mystery","Romance","Sci-fi","Short","Sport","Thriller","War","Western")
-val booleanArray=BooleanArray(genre_list.size)
-val sortArray= arrayOf("Popularity","Date Added","Year")
+val tvshow_genre_list= arrayOf("Action","Animation","Comedy","Crime","Documentary","Drama","Family","Kids","Mystery","News","Reality","Science Fiction","Soap","Talk","War","Western")
+val movie_genre_list= arrayOf("Action","Adventure","Animation","Comedy","Crime","Documentary","Drama","Family","Fantasy","History","Horror","Music","Mystery","Romance","Science Fiction","TV Movie","Thriller","War","Western")
+val movie_booleanArray=BooleanArray(movie_genre_list.size)
+val tvshow_booleanArray=BooleanArray(tvshow_genre_list.size)
+val tvShowSortArray= arrayOf("Popularity","First Air Date","Vote Average")
 val qualityArray= arrayOf("360p","480p","720p","1080p")
 val booleanArray2=BooleanArray(qualityArray.size)
+val tvShowGenreMap:HashMap<String,Int> = hashMapOf("Action" to 10759,"Animation" to 16,"Comedy" to 35,"Crime" to 80,"Documentary" to 99,"Drame" to 18,"Family" to 10751,"Kids" to 10762,"Mystery" to 9648,"News" to 10763,"Reality" to 10764,"Science Fiction" to 10765,"Soap" to 10766,"Talk" to 10767,"War" to 10768,"Western" to 37)
+val movieGenreMap: HashMap<String,Int> = hashMapOf("Action" to 28,"Adventure" to 12,"Animation" to 16,"Comedy" to 35,"Crime" to 80,"Documentary" to 99,"Drama" to 18 ,"Family" to 10751,"Fantasy" to 14,"History" to 36,"Horror" to 27,"Music" to 10402 ,"Mystery" to 9648 ,"Romance" to 10749,"Science Fiction" to 878,"TV Movie" to 10770,"Thriller" to 53 ,"War" to 10752,"Western" to 37 )
 @BindingAdapter("android:imageUrl")
 fun getImage(view: ImageView, url:String?){
     view.alpha=0.2f

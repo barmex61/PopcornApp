@@ -23,10 +23,7 @@ import com.fatih.popcornapplication.adapter.SearchAdapter
 import com.fatih.popcornapplication.adapter.TvShowAdapter
 import com.fatih.popcornapplication.databinding.FragmentMainBinding
 import com.fatih.popcornapplication.resource.Status
-import com.fatih.popcornapplication.util.booleanArray
-import com.fatih.popcornapplication.util.booleanArray2
-import com.fatih.popcornapplication.util.genre_list
-import com.fatih.popcornapplication.util.qualityArray
+import com.fatih.popcornapplication.util.*
 import com.fatih.popcornapplication.viewModel.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +44,14 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
     private var searchText=""
     private var searchName:String?=null
     private var isBinded:Boolean?=false
+    private var tvShowSortString="popularity.desc"
+    private var movieSortString="popularity.desc"
+    private var movieGenres=""
+    private var tvShowGenres=""
+    private var searchGenre=""
+    private var indexPosition=0
+    private var tvShowSortPosition=0
+    private var movieSortPosition=0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -64,6 +69,7 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
 
     @SuppressLint("PrivateResource")
     private fun doInitialization(){
+
         binding.navigationView.setNavigationItemSelectedListener {
             setNavigation(it)
             return@setNavigationItemSelectedListener false
@@ -77,30 +83,17 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
         }
         binding.moviesRecyclerView.setHasFixedSize(true)
         binding.moviesRecyclerView.layoutManager= GridLayoutManager(requireContext(),3)
-        binding.moviesRecyclerView.setOnScrollChangeListener { _, _, _, _, p4 ->
-            if (binding.layoutButtons.y >= -88f && binding.layoutButtons.y <= 168f) {
-                binding.layoutButtons.y = binding.layoutButtons.y + p4.toFloat()
-                binding.viewLayout.y = binding.viewLayout.y + p4.toFloat()
-
-                if (binding.layoutButtons.y < -88f) {
-                    binding.layoutButtons.y = -88f
-                    binding.viewLayout.y = -28f
-                }
-                if (binding.layoutButtons.y > 168f) {
-                    binding.layoutButtons.y = 168f
-                    binding.viewLayout.y = 248f
-                }
-            }
+        binding.moviesRecyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
 
             if (!binding.moviesRecyclerView.canScrollVertically(1)) {
                 if (currentPage <= totalAvailablePages) {
                     currentPage++
                     if (searchText.isEmpty()) {
                         if (isItInMovieList == true) {
-                            observeMovieLiveData(currentPage)
+                            observeMovieLiveData(currentPage,movieSortString, movieGenres)
 
                         } else {
-                            observeTvShowLiveData(currentPage)
+                            observeTvShowLiveData(currentPage,tvShowSortString, tvShowGenres)
                         }
                     } else {
                         if (isItInMovieList == true) {
@@ -176,9 +169,9 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
         })
 
     }
-    private fun observeMovieLiveData(currentPage:Int){
+    private fun observeMovieLiveData(currentPage:Int,sort_by:String,genres:String){
             if(searchText.isEmpty()){
-                viewModel.getMostPopularMovies(currentPage)
+                viewModel.getMostPopularMovies(currentPage,sort_by,genres)
                 viewModel.mostPopularMovies.observe(viewLifecycleOwner){ resource->
                     if (resource!=null){
                         if(resource.status==Status.LOADING){
@@ -194,11 +187,19 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
                             binding.moviesRecyclerView.visibility=View.VISIBLE
 
                             resource.data?.let {
-                                oldCount=movieAdapter.movieList.size
-                                movieAdapter.movieList=movieAdapter.movieList+it.results
-                                movieAdapter.notifyItemRangeInserted(oldCount,movieAdapter.movieList.size)
-                                binding.isLoading=false
-                                totalAvailablePages=it.totalPages
+
+                                if(searchGenre==genres){
+                                    oldCount=movieAdapter.movieList.size
+                                    movieAdapter.movieList=movieAdapter.movieList+it.results
+                                    movieAdapter.notifyItemRangeInserted(oldCount,movieAdapter.movieList.size)
+                                    binding.isLoading=false
+                                    totalAvailablePages=it.totalPages
+                                }else{
+                                    movieAdapter.movieList=it.results
+                                    binding.isLoading=false
+                                    searchGenre=genres
+                                }
+
                             }
 
 
@@ -242,10 +243,10 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
                 }
             }
     }
-    private fun observeTvShowLiveData(currentPage: Int){
+    private fun observeTvShowLiveData(currentPage: Int,sort_by: String,genres: String){
         if(searchText.isEmpty()){
             binding.isLoading=true
-            viewModel.getMostPopularTvShows(currentPage)
+            viewModel.getMostPopularTvShows(currentPage,sort_by, genres)
             viewModel.mostPopularTvShows.observe(viewLifecycleOwner){ resource->
                 if (resource!=null){
                     if(resource.status==Status.LOADING){
@@ -260,11 +261,16 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
                         binding.moviesRecyclerView.visibility=View.VISIBLE
                         binding.isLoading=false
                         resource.data?.let {
-
-                            oldCount=tvShowAdapter.tvShowList.size
-                            tvShowAdapter.tvShowList+=it.results
-                            tvShowAdapter.notifyItemRangeInserted(oldCount,tvShowAdapter.tvShowList.size)
-                            totalAvailablePages=it.totalPages
+                            if(searchGenre==genres){
+                                oldCount=tvShowAdapter.tvShowList.size
+                                tvShowAdapter.tvShowList+=it.results
+                                tvShowAdapter.notifyItemRangeInserted(oldCount,tvShowAdapter.tvShowList.size)
+                                totalAvailablePages=it.totalPages
+                            }else{
+                                tvShowAdapter.tvShowList=it.results
+                                binding.isLoading=false
+                                searchGenre=genres
+                            }
                         }
                     }
                 }
@@ -282,7 +288,7 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
 
         if(searchText.isEmpty()){
             binding.moviesRecyclerView.adapter=movieAdapter
-            observeMovieLiveData(currentPage)
+            observeMovieLiveData(currentPage,movieSortString,movieGenres)
         }else{
             observeSearchLiveData(searchName!!,searchText,currentPage)
         }
@@ -302,7 +308,7 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
         currentPage=1
         if(searchText.isEmpty()){
             binding.moviesRecyclerView.adapter=tvShowAdapter
-            observeTvShowLiveData(currentPage)
+            observeTvShowLiveData(currentPage,tvShowSortString,tvShowGenres)
         }else{
             observeSearchLiveData(searchName!!,searchText,currentPage)
         }
@@ -315,74 +321,111 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
     private fun setNavigation(it:MenuItem){
         when(it.itemId){
             R.id.movies->{
-                val list= arrayOf("Cinema","Anime")
+                val list= arrayOf("Movie","Tv Show")
                 val alertDialog=AlertDialog.Builder(requireContext())
-                var position=0
                 alertDialog.setTitle("Index")
-                alertDialog.setSingleChoiceItems(list,position,object :DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        position=p1
+                alertDialog.setSingleChoiceItems(list,indexPosition
+                ) { _, p1 -> indexPosition = p1 }
+                alertDialog.setNegativeButton("Cancel"
+                ) { _, _ -> }.setPositiveButton("OK"){_,_->
+                    if(indexPosition==0){
+                        movieButtonClicked()
+                        binding.drawableLayout.closeDrawer(GravityCompat.START)
+                    }else{
+                        tvShowButtonClicked()
+                        binding.drawableLayout.closeDrawer(GravityCompat.START)
                     }
-                })
-                alertDialog.setNegativeButton("Cancel",object :DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-
-                    }
-                }).show()
+                }.show()
             }
             R.id.movie_filter->{
 
                 val alertDialog=AlertDialog.Builder(requireContext())
-                alertDialog.setTitle("Genre").setMultiChoiceItems(genre_list,booleanArray,object :DialogInterface.OnMultiChoiceClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int, p2: Boolean) {
-                        booleanArray[p1] = p2
-                    }
-                }).setNegativeButton("CANCEL",object :DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        booleanArray.forEachIndexed { index, b ->
-                            booleanArray[index]=false
+                if(isItInMovieList==true){
+                   alertDialog.setMultiChoiceItems(
+                        movie_genre_list, movie_booleanArray
+                    ) { _, p1, p2 -> movie_booleanArray[p1] = p2 }
+
+                    alertDialog.setTitle("Genre").setNegativeButton("CANCEL"
+                    ) { _, _ -> }.setPositiveButton("OK") { _, _ ->
+                        movieGenres = ""
+                        movie_booleanArray.forEachIndexed { index, _ ->
+                            if (movie_booleanArray[index]) {
+                                val value = movie_genre_list[index]
+                                movieGenres = if (movieGenres.isEmpty()) {
+                                    movieGenreMap[value].toString()
+                                } else {
+                                    movieGenres+ "," + movieGenreMap[value].toString()
+                                }
+                            }
                         }
-                    }
-                }).setPositiveButton("OK",object :DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        //Search selected genres
-                    }
-                }).show()
+                        movieButtonClicked()
+                        binding.drawableLayout.closeDrawer(GravityCompat.START)
+                    }.show()
+                }else{
+                    alertDialog.setMultiChoiceItems(
+                        tvshow_genre_list, tvshow_booleanArray
+                    ) { _, p1, p2 -> tvshow_booleanArray[p1] = p2 }
+
+                    alertDialog.setTitle("Genre").setNegativeButton("CANCEL"
+                    ) { _, _ -> }.setPositiveButton("OK") { _, _ ->
+                        tvShowGenres= ""
+                        tvshow_booleanArray.forEachIndexed { index, _ ->
+                            if (tvshow_booleanArray[index]) {
+                                val value = tvshow_genre_list[index]
+                                tvShowGenres = if (tvShowGenres.isEmpty()) {
+                                    tvShowGenreMap[value].toString()
+                                } else {
+                                    tvShowGenres + "," + tvShowGenreMap[value].toString()
+                                }
+                            }
+                        }
+                        tvShowButtonClicked()
+                        binding.drawableLayout.closeDrawer(GravityCompat.START)
+                    }.show()
+                }
+
 
             }
             R.id.sort->{
-                var position=0
                 val alertDialog=AlertDialog.Builder(requireContext())
-                alertDialog.setTitle("Sort By").setSingleChoiceItems(com.fatih.popcornapplication.util.sortArray,position,object:DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        position=p1
-                    }
-                }).setNegativeButton("CANCEL",object :DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                    }
-                }).setPositiveButton("OK",object:DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        //sortBy
-                    }
-                }).show()
+                if(isItInMovieList==true){
+                    alertDialog.setTitle("Sort By").setSingleChoiceItems(
+                        tvShowSortArray,movieSortPosition
+                    ) { _, p1 -> movieSortPosition = p1 }.setNegativeButton("CANCEL"
+                    ) { _, _ -> }.setPositiveButton("OK") { _, _ ->
+                            when(movieSortPosition){
+                                0->movieSortString="popularity.desc"
+                                1->movieSortString="first_air_date.desc"
+                                2->movieSortString="vote_average.desc"
+                            }
+                        movieButtonClicked()
+                    }.show()
+                }else{
+                    alertDialog.setTitle("Sort By").setSingleChoiceItems(
+                      tvShowSortArray,tvShowSortPosition
+                    ) { _, p1 -> tvShowSortPosition = p1 }.setNegativeButton("CANCEL"
+                    ) { _, _ -> }.setPositiveButton("OK") { _, _ ->
+                        when(tvShowSortPosition){
+                            0->tvShowSortString="popularity.desc"
+                            1->tvShowSortString="release_date.desc"
+                            2->tvShowSortString="vote_average.desc"
+                        }
+                        tvShowButtonClicked()
+                    }.show()
+                }
+
             }
             R.id.quality->{
                 val alertDialog=AlertDialog.Builder(requireContext())
-                alertDialog.setTitle("Quality").setMultiChoiceItems(qualityArray, booleanArray2,object :DialogInterface.OnMultiChoiceClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int, p2: Boolean) {
-                        booleanArray2[p1]=p2
+                alertDialog.setTitle("Quality").setMultiChoiceItems(qualityArray, booleanArray2
+                ) { _, p1, p2 -> booleanArray2[p1] = p2 }.setNegativeButton("CANCEL"
+                ) { _, _ ->
+                    booleanArray2.forEachIndexed { index, _->
+                        booleanArray2[index] = false
                     }
-                }).setNegativeButton("CANCEL",object :DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        booleanArray2.forEachIndexed { index, b ->
-                            booleanArray2[index]=false
-                        }
-                    }
-                }).setPositiveButton("OK",object :DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        //search for quality
-                    }
-                }).show()
+                }.setPositiveButton("OK") { _, _ ->
+                    //search for quality
+                }.show()
             }
             R.id.like->{
                 binding.drawableLayout.closeDrawer(GravityCompat.START)

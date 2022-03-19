@@ -3,9 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/drawable/ic_baseline_play_arrow_24.xml" value="0.1025" />
+        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/drawable/ic_play.xml" value="0.1025" />
         <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/fragment_details.xml" value="0.19610507246376813" />
-        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/fragment_main.xml" value="0.19610507246376813" />
+        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/fragment_details.xml" value="0.21991701244813278" />
+        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/fragment_main.xml" value="0.25" />
+        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/main_layout.xml" value="0.22" />
+        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/movie_recyclerview_row.xml" value="0.19610507246376813" />
+        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/search_recycler_row.xml" value="0.15" />
+        <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/layout/tvshow_recyclerview_row.xml" value="0.19610507246376813" />
         <entry key="..\:/Users/90507/AndroidStudioProjects/PopcornApplication/app/src/main/res/menu/navigation_menu.xml" value="0.20416666666666666" />
       </map>
     </option>

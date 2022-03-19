@@ -43,10 +43,11 @@ class TvShowAdapter @Inject constructor(): RecyclerView.Adapter<TvShowAdapter.Tv
 
     override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
             holder.binding.result=tvShowList[position]
-            if(tvShowList[position].firstAirDate.isNotEmpty()&&tvShowList[position].firstAirDate.length>=4){
-            holder.binding.releaseDate=tvShowList[position].firstAirDate.substring(0,4)
-            }else{
-            holder.binding.releaseDate="null"
+            try {
+                holder.binding.releaseDate=tvShowList[position].firstAirDate.substring(0,4)
+
+            }catch (e:Exception){
+                holder.binding.releaseDate="null"
             }
             holder.itemView.setOnClickListener {
                getDominantColor(holder,it,position)

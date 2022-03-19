@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/settings/baseline_settings_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/play_circle_filled/baseline_play_circle_filled_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,9 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_settings" />
-                            <entry key="sourceFile" value="C:\Users\90507\Downloads\play-button-svgrepo-com.svg" />
+                            <entry key="outputName" value="ic_baseline_play_circle_filled_24" />
+                            <entry key="sourceFile" value="C:\Users\90507\AndroidStudioProjects\PopcornApplication" />
                           </map>
                         </option>
                       </PersistentState>

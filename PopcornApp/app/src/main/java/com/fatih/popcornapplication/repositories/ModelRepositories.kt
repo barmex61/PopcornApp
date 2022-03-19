@@ -25,10 +25,10 @@ class ModelRepositories @Inject constructor(private val roomDao: RoomDao, privat
         return roomDao.getSelectedTvShow(idInput)
     }
 
-    override suspend fun getMostPopularMovies(page: Int): Resource<MostPopularMovies> {
-        return if(movieApi.getMostPopularMovies(page).isSuccessful){
+    override suspend fun getMovies(page: Int,sort_by:String,genres:String): Resource<MostPopularMovies> {
+        return if(movieApi.getMovies(sort_by,page,genres).isSuccessful){
             try {
-                movieApi.getMostPopularMovies(page).body()?.let {
+                movieApi.getMovies(sort_by,page,genres).body()?.let {
                     Resource.success(it)
                 }?: Resource.error(null,"No Data")
             }catch (e:Exception){
@@ -39,10 +39,10 @@ class ModelRepositories @Inject constructor(private val roomDao: RoomDao, privat
         }
     }
 
-    override suspend fun getMostPopularTvShows(page: Int): Resource<MostPopularTvShows> {
-        return if(movieApi.getMostPopularTvShows(page).isSuccessful){
+    override suspend fun getTvShows(page: Int,sort_by: String,genres: String): Resource<MostPopularTvShows> {
+        return if(movieApi.getTvShows(sort_by,page,genres).isSuccessful){
             try {
-                movieApi.getMostPopularTvShows(page).body()?.let {
+                movieApi.getTvShows(sort_by,page,genres).body()?.let {
                     Resource.success(it)
                 }?: Resource.error(null,"No Data")
             }catch (e:Exception){

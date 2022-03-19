@@ -45,11 +45,12 @@ class MovieAdapter @Inject constructor(): RecyclerView.Adapter<MovieAdapter.Movi
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.binding.result=movieList[position]
-        if(movieList[position].releaseDate.isNotEmpty()&&movieList[position].releaseDate.length>=4){
-            holder.binding.releaseDate=movieList[position].releaseDate.substring(0,4)
-        }else{
-            holder.binding.releaseDate="null"
-        }
+
+           try {
+               holder.binding.releaseDate=movieList[position].releaseDate.substring(0,4)
+           } catch (e:Exception){
+               holder.binding.releaseDate="null"
+           }
         holder.itemView.setOnClickListener { view->
            //  getDominantColor(holder,it,position)
             if(holder.binding.movieImage.drawable!=null){

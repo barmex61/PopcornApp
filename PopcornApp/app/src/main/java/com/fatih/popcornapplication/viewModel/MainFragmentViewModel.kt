@@ -26,19 +26,19 @@ class MainFragmentViewModel @Inject constructor(private val repositories: ModelR
     val searchList:LiveData<Resource<SearchModel>>
         get() = _searchList
 
-    fun getMostPopularMovies(page:Int)=viewModelScope.launch{
+    fun getMostPopularMovies(page:Int,sort_by:String,genres:String)=viewModelScope.launch{
         _mostPopularMovies.value= Resource.loading(null)
         try {
-            _mostPopularMovies.value=repositories.getMostPopularMovies(page)
+            _mostPopularMovies.value=repositories.getMovies(page,sort_by,genres)
         }catch (e:Exception){
             _mostPopularMovies.value= Resource.error(null,e.message)
         }
     }
 
-    fun getMostPopularTvShows(page: Int)=viewModelScope.launch{
+    fun getMostPopularTvShows(page: Int,sort_by: String,genres: String)=viewModelScope.launch{
         _mostPopularTvShow.value= Resource.loading(null)
         try {
-            _mostPopularTvShow.value=repositories.getMostPopularTvShows(page)
+            _mostPopularTvShow.value=repositories.getTvShows(page,sort_by, genres)
         }catch (e:Exception){
             _mostPopularTvShow.value= Resource.error(null,e.message)
         }

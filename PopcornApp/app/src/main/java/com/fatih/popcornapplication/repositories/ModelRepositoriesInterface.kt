@@ -9,8 +9,8 @@ interface ModelRepositoriesInterface {
     suspend fun deleteTvShow(roomEntity: RoomEntity)
     fun getAllTvShow():LiveData<List<RoomEntity>>
     suspend fun getSelectedTvShow(idInput:Int):RoomEntity?
-    suspend fun getMostPopularMovies(page:Int): Resource<MostPopularMovies>
-    suspend fun getMostPopularTvShows(page: Int):Resource< MostPopularTvShows>
+    suspend fun getMovies(page:Int,sort_by:String,genres:String): Resource<MostPopularMovies>
+    suspend fun getTvShows(page:Int,sort_by:String,genres:String):Resource<MostPopularTvShows>
     suspend fun getMovieDetail(id:Int,api_key:String):Resource< MovieDetail>
     suspend fun getTvShowDetail(id:Int,api_key: String):Resource<TvShowDetail>
     suspend fun getMovieImages(id:Int):Resource<MovieImages>

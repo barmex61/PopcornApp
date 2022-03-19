@@ -160,7 +160,7 @@ class DetailsFragmentViewModel @Inject constructor(private val repositories: Mod
             binding.episodesText.visibility= View.VISIBLE
         }
 
-        binding.imgPlay.imageTintList= ColorStateList.valueOf(vibrantColor)
+        binding.imgPlay.backgroundTintList= ColorStateList.valueOf(vibrantColor)
         binding.saveImage.backgroundTintList= ColorStateList.valueOf(vibrantColor)
         binding.trailerImage.imageTintList= ColorStateList.valueOf(vibrantColor)
         binding.ratingBar.progressTintList= ColorStateList.valueOf(vibrantColor)

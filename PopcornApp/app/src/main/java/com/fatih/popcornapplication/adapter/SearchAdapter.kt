@@ -43,7 +43,11 @@ class SearchAdapter @Inject constructor(): RecyclerView.Adapter<SearchAdapter.Se
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
             holder.binding.result=searchList[position]
-            holder.binding.releaseDate=searchList[position].releaseDate
+            try {
+            holder.binding.releaseDate=searchList[position].releaseDate.substring(0,4)
+            } catch (e:Exception){
+            holder.binding.releaseDate="null"
+            }
             holder.itemView.setOnClickListener {
                 getDominantColor(holder,it,position)
             }

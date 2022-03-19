@@ -325,7 +325,6 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
         if(counter%2==0){
             binding.videoImage.setImageResource(R.drawable.ic_image)
             binding.trailerText.text = "IMAGES"
-            binding.playArrow.visibility=View.GONE
             binding.imgPlay.visibility=View.GONE
             binding.saveImage.visibility=View.GONE
             binding.posterImage.visibility=View.GONE
@@ -347,7 +346,6 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
             binding.youtuber.visibility=View.GONE
             binding.videoImage.setImageResource(R.drawable.ic_video)
             binding.trailerText.text="TRAILER"
-            binding.playArrow.visibility=View.VISIBLE
             binding.imgPlay.visibility=View.VISIBLE
             binding.saveImage.visibility=View.VISIBLE
             binding.posterImage.visibility=View.VISIBLE
