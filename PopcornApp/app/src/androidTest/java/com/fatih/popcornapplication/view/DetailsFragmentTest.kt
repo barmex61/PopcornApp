@@ -14,7 +14,6 @@ import com.fatih.popcornapplication.model.RoomEntity
 import com.fatih.popcornapplication.repositories.FakeModelRepositoriesTest
 import com.fatih.popcornapplication.resource.Status
 import com.fatih.popcornapplication.viewModel.DetailsFragmentViewModel
-import com.fatih.popcornapplication.viewModel.WatchListFragmentViewModel
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

@@ -2,7 +2,6 @@ package com.fatih.popcornapplication.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.fatih.popcornapplication.getOrAwaitValueTest
 import com.fatih.popcornapplication.model.*
 import com.fatih.popcornapplication.resource.Resource
 

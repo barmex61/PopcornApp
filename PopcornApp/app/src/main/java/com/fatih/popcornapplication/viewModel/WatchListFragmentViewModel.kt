@@ -2,7 +2,6 @@ package com.fatih.popcornapplication.viewModel
 
 
 import androidx.lifecycle.*
-import androidx.room.Room
 import com.fatih.popcornapplication.model.RoomEntity
 import com.fatih.popcornapplication.repositories.ModelRepositoriesInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
