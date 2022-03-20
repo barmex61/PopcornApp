@@ -2,6 +2,7 @@ package com.fatih.popcornapplication.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -38,7 +39,15 @@ class SeasonAdapter @Inject constructor( ): RecyclerView.Adapter<SeasonAdapter.S
         holder.binding.tvShowSeason=listTvShowSeason[position]
         holder.binding.ratingText2.text="$rating /10"
         holder.binding.genre= genre.toString()
-        println(holder.binding.ratingText2.text)
+        var drawable=R.drawable.cardview_background
+        when(position%5){
+            0->drawable=R.drawable.cardview_background
+            1->drawable=R.drawable.cardview_background2
+            2->drawable=R.drawable.cardview_background3
+            3->drawable=R.drawable.cardview_background4
+            4->drawable=R.drawable.cardview_background1
+        }
+        holder.binding.backgroundLayout.background=ContextCompat.getDrawable(holder.binding.root.context,drawable)
     }
 
     override fun getItemCount(): Int {

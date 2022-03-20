@@ -1,5 +1,6 @@
 package com.fatih.popcornapplication.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.ColorMatrix
@@ -7,6 +8,8 @@ import android.graphics.ColorMatrixColorFilter
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -51,6 +54,7 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
     lateinit var roomEntity: RoomEntity
     private var videoId:String?=null
     private var counter=0
+    private lateinit var button_animation:Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +81,10 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
+    @SuppressLint("ClickableViewAccessibility")
     private fun doInitialization(){
         viewModel=ViewModelProvider(this)[DetailsFragmentViewModel::class.java]
+        button_animation=AnimationUtils.loadAnimation(requireContext(),R.anim.button_animation)
         binding.trailerImage.setOnClickListener { youtube() }
         binding.watchList.setOnClickListener { watchList() }
         binding.shareButton.setOnClickListener { findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToWatchListFragment()) }
@@ -278,6 +284,7 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
     }
     private fun goEpisodes(view:View){
         if(episodesBottomSheetDialog==null){
+
             episodesBottomSheetDialog= BottomSheetDialog(requireContext(),R.style.BottomSheetDialog)
             episodesBottomSheetDialogBinding=DataBindingUtil.inflate(LayoutInflater.from(requireContext()),R.layout.seasons_bottom_sheet_dialog,view.findViewById(R.id.episodesContainer),false)
             episodesBottomSheetDialog?.setContentView(episodesBottomSheetDialogBinding.root)

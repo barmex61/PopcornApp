@@ -75,4 +75,60 @@ class DetailsFragmentViewModelTests {
         val response=viewModel.videos.getOrAwaitValueTest()
         assertThat(response.status).isEqualTo(Status.SUCCESS)
     }
+    @Test
+    fun `get tvShowDetails with wrong id returns error`(){
+        //id(1,2) dummy data insert into fakeRepositories
+        viewModel.getTvShowDetails(3)
+        val response=viewModel.tvShowDetails.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+    }
+    @Test
+    fun `get tvShowDetails with correct id returns success`(){
+        //id(1,2) dummy data insert into fakeRepositories
+        viewModel.getTvShowDetails(2)
+        val response=viewModel.tvShowDetails.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.SUCCESS)
+    }
+    @Test
+    fun `get movieDetails with wrong id returns error`(){
+        //id(1,2) dummy data insert into fakeRepositories
+        viewModel.getMovieDetails(3)
+        val response=viewModel.movieDetails.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+    }
+    @Test
+    fun `get movieDetails with correct id returns success`(){
+        //id(1,2) dummy data insert into fakeRepositories
+        viewModel.getMovieDetails(2)
+        val response=viewModel.movieDetails.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.SUCCESS)
+    }
+    @Test
+    fun `get movieImages with correct id returns success`(){
+        //id(1,2) dummy data insert into fakeRepositories
+        viewModel.getMovieImages(1)
+        val response=viewModel.movieImages.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.SUCCESS)
+    }
+    @Test
+    fun `get movieImages with wrong id returns error`(){
+        //id(1,2) dummy data insert into fakeRepositories
+        viewModel.getMovieImages(5)
+        val response=viewModel.movieImages.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+    }
+    @Test
+    fun `get tvShowImages with correct id returns success`(){
+        //id(1,2) dummy data insert into fakeRepositories
+        viewModel.getTvShowImages(2)
+        val response=viewModel.tvShowImages.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.SUCCESS)
+    }
+    @Test
+    fun `get tvShowImages with wrong id returns error`(){
+        //id(1,2) dummy data insert into fakeRepositories
+        viewModel.getTvShowImages(7)
+        val response=viewModel.tvShowImages.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+    }
 }

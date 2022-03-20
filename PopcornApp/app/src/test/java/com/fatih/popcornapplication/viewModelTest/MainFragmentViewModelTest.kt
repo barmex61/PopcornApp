@@ -45,4 +45,30 @@ class MainFragmentViewModelTest {
         val response=viewModel.searchList.getOrAwaitValueTest()
         assertThat(response.status).isEqualTo(Status.SUCCESS)
     }
+    @Test
+    fun `get movies with wrong sort string returns error`(){
+        //name_desc dummy
+        viewModel.getMovies(1,"name_desc","80")
+        val response=viewModel.mostPopularMovies.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+    }
+    @Test
+    fun `get movies with wrong genres returns error`(){
+        //1000 genre id dummy
+        viewModel.getMovies(1,"","1000")
+        val response=viewModel.mostPopularMovies.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+    }
+    @Test
+    fun `get tvShow with wrong sort_by returns error`(){
+        viewModel.getTvShows(1,"name_desc","80")
+        val response=viewModel.mostPopularTvShows.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+    }
+    @Test
+    fun `get tvShow with wrong genres returns error`(){
+        viewModel.getTvShows(1,"","1000")
+        val response=viewModel.mostPopularTvShows.getOrAwaitValueTest()
+        assertThat(response.status).isEqualTo(Status.ERROR)
+    }
 }

@@ -19,6 +19,9 @@ val qualityArray= arrayOf("360p","480p","720p","1080p")
 val booleanArray2=BooleanArray(qualityArray.size)
 val tvShowGenreMap:HashMap<String,Int> = hashMapOf("Action" to 10759,"Animation" to 16,"Comedy" to 35,"Crime" to 80,"Documentary" to 99,"Drame" to 18,"Family" to 10751,"Kids" to 10762,"Mystery" to 9648,"News" to 10763,"Reality" to 10764,"Science Fiction" to 10765,"Soap" to 10766,"Talk" to 10767,"War" to 10768,"Western" to 37)
 val movieGenreMap: HashMap<String,Int> = hashMapOf("Action" to 28,"Adventure" to 12,"Animation" to 16,"Comedy" to 35,"Crime" to 80,"Documentary" to 99,"Drama" to 18 ,"Family" to 10751,"Fantasy" to 14,"History" to 36,"Horror" to 27,"Music" to 10402 ,"Mystery" to 9648 ,"Romance" to 10749,"Science Fiction" to 878,"TV Movie" to 10770,"Thriller" to 53 ,"War" to 10752,"Western" to 37 )
+val genreList= listOf<Int>(10759,16,35,28,12,80,99,18,10751,10762,9648,14,10763,36,27,10764,10402,10765,10766,10749,10767,10768,10770,37,53,10752)
+val movieSortList= listOf<String>("popularity.desc","first_air_date.desc","vote_average.desc")
+val tvShowSortList= listOf<String>("popularity.desc","release_date.desc","vote_average.desc")
 @BindingAdapter("android:imageUrl")
 fun getImage(view: ImageView, url:String?){
     view.alpha=0.2f

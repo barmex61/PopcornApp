@@ -170,7 +170,7 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
     }
     private fun observeMovieLiveData(currentPage:Int,sort_by:String,genres:String){
             if(searchText.isEmpty()){
-                viewModel.getMostPopularMovies(currentPage,sort_by,genres)
+                viewModel.getMovies(currentPage,sort_by,genres)
                 viewModel.mostPopularMovies.observe(viewLifecycleOwner){ resource->
                     if (resource!=null){
                         if(resource.status==Status.LOADING){
@@ -245,11 +245,10 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
     private fun observeTvShowLiveData(currentPage: Int,sort_by: String,genres: String){
         if(searchText.isEmpty()){
             binding.isLoading=true
-            viewModel.getMostPopularTvShows(currentPage,sort_by, genres)
+            viewModel.getTvShows(currentPage,sort_by, genres)
             viewModel.mostPopularTvShows.observe(viewLifecycleOwner){ resource->
                 if (resource!=null){
                     if(resource.status==Status.LOADING){
-
                         binding.isLoading=true
                     }
                     if(resource.status==Status.ERROR){

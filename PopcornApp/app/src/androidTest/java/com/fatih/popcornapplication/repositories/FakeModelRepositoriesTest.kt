@@ -30,11 +30,11 @@ class FakeModelRepositoriesTest:ModelRepositoriesInterface {
         return _databaseList.value?.get(idInput)
     }
 
-    override suspend fun getMostPopularMovies(page: Int): Resource<MostPopularMovies> {
+    override suspend fun getMovies(page: Int, sort_by: String, genres: String): Resource<MostPopularMovies> {
         return Resource.success(MostPopularMovies(page, listOf(),44,44))
     }
 
-    override suspend fun getMostPopularTvShows(page: Int): Resource<MostPopularTvShows> {
+    override suspend fun getTvShows(page: Int, sort_by: String, genres: String): Resource<MostPopularTvShows> {
         return Resource.success(MostPopularTvShows(page, listOf(),55,44))
     }
 

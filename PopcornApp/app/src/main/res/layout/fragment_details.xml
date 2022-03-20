@@ -363,6 +363,7 @@
                 android:layout_height="wrap_content"
                 android:text="TURKCE"
                 android:textSize="17sp"
+                android:clickable="true"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toTopOf="@id/subtitleImage"
                 app:layout_constraintBottom_toBottomOf="@id/subtitleImage"
@@ -431,6 +432,7 @@
             android:id="@+id/imgPlay"
             app:fabSize="normal"
             android:elevation="25dp"
+
             app:borderWidth="0dp"
             app:tint="@android:color/white"
             android:src="@drawable/ic_baseline_play_arrow_24"

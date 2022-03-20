@@ -1,5 +1,6 @@
 package com.fatih.popcornapplication.view
 
+import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -58,7 +59,11 @@ class MainFragmentTest {
         val resultMovies1=ResultMovies(true,"s", listOf(),1,"s","s","s",2.2,"/wdE6ewaKZHr62bLqCn7A2DiGShm.jpg","s","s",true,2.2,1)
         val resultMovies2=ResultMovies(true,"s", listOf(),1,"s","s","s",2.2,"/wdE6ewaKZHr62bLqCn7A2DiGShm.jpg","s","s",true,2.2,1)
         val resultMovies3=ResultMovies(true,"s", listOf(),1,"s","s","s",2.2,"/wdE6ewaKZHr62bLqCn7A2DiGShm.jpg","s","s",true,2.2,1)
-        launchFragmentInHiltContainer<MainFragment>(factory = fragmentFactory){
+        val bundle=Bundle()
+        bundle.putInt("id",resultMovies.id)
+        bundle.putInt("vibrantColor",-518144)
+        bundle.putBoolean("isTvShow",false)
+        launchFragmentInHiltContainer<MainFragment>(factory = fragmentFactory ){
             Navigation.setViewNavController(requireView(),navController)
             viewModel=testViewModel
             movieAdapter.movieList= listOf(resultMovies,resultMovies1,resultMovies2,resultMovies3)
@@ -67,12 +72,9 @@ class MainFragmentTest {
             click()))
         Mockito.verify(navController).navigate(MainFragmentDirections.actionMainFragmentToDetailsFragment(resultMovies.id,-518144
             ,false))
-        launchFragmentInHiltContainer<DetailsFragment>(factory = fragmentFactory){
-            assertThat(arguments?.let {
-                DetailsFragmentArgs.fromBundle(it).id
-            }).isEqualTo(resultMovies.id)
+        launchFragmentInHiltContainer<DetailsFragment>(factory = fragmentFactory, fragmentArgs = bundle){
+            assertThat(selectedMovieId).isEqualTo(resultMovies.id)
         }
-
     }
 
 }
