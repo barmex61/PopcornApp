@@ -1,6 +1,6 @@
 # PopcornApp
  Movie application with many different jetpack members ........
- #25.03.22 A youtube-like fragment has been added where you can watch a video about the movie.
+ #25.03.22 A youtube-like fragment has been added where you can watch a video about the movie.When you press the trailer button, you can access the relevant fragment.
  
 ![popcorn1](https://user-images.githubusercontent.com/9730563/157147449-77e1033c-765e-4f02-9a5c-3cd2b380ecdf.jpg)
 ![popcorn2](https://user-images.githubusercontent.com/9730563/157147453-8dedced0-38ba-447d-a932-be9032239c8d.jpg)
