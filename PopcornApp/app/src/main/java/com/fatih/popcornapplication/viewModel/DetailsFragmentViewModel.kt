@@ -36,9 +36,7 @@ class DetailsFragmentViewModel @Inject constructor(private val repositories: Mod
     val tvShowImages:LiveData<Resource<TvShowImages>>
         get() = _tvShowImages
 
-    private val _videos=MutableLiveData<Resource<VideoResponse>>()
-    val videos:LiveData<Resource<VideoResponse>>
-        get() = _videos
+
 
     private val _controlMessage=MutableLiveData<Resource<String>>()
     val controlMessage:LiveData<Resource<String>>
@@ -118,18 +116,6 @@ class DetailsFragmentViewModel @Inject constructor(private val repositories: Mod
             }
         }else{
             _controlMessage.value= Resource.error("error","error")
-        }
-    }
-    fun getVideos(name:String,id:Int)=viewModelScope.launch{
-        if(name.isEmpty()){
-            _videos.value= Resource.error(null,"Name is empty")
-        }else{
-            _videos.value= Resource.loading(null)
-            try {
-                _videos.value=repositories.getVideos(name,id)
-            }catch (e:Exception){
-                _videos.value= Resource.error(null,e.message)
-            }
         }
     }
     fun setTints(selectedMovie:MovieDetail?, selectedTvShow:TvShowDetail?, binding:FragmentDetailsBinding, context: Context,vibrantColor:Int){

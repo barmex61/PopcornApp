@@ -6,10 +6,12 @@ import androidx.databinding.BindingAdapter
 import com.fatih.popcornapplication.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import okhttp3.internal.http2.Header
 import java.util.HashMap
 
 const val BASE_URL="https://api.themoviedb.org/3/"
 const val API_KEY="ae624ef782f69d5092464dffa234178b"
+const val YOUTUBE_API_KEY="AIzaSyDjn7FjfG2kUgWP4D5-w1GoigWWyyT_ZQs"
 val tvshow_genre_list= arrayOf("Action","Animation","Comedy","Crime","Documentary","Drama","Family","Kids","Mystery","News","Reality","Science Fiction","Soap","Talk","War","Western")
 val movie_genre_list= arrayOf("Action","Adventure","Animation","Comedy","Crime","Documentary","Drama","Family","Fantasy","History","Horror","Music","Mystery","Romance","Science Fiction","TV Movie","Thriller","War","Western")
 val movie_booleanArray=BooleanArray(movie_genre_list.size)
@@ -44,6 +46,29 @@ fun getImage(view: ImageView, url:String?){
         }
     }catch (e:Exception){
 
+    }
+}
+@BindingAdapter("android:youtubeUrl")
+fun getYoutubeThumbnail(view: ImageView, url:String?){
+    view.alpha=0.4f
+    try {
+        url?.let {
+
+            Picasso.get().load(url).noFade().placeholder(
+                R.drawable.popcorn2)
+                .into(view,object : Callback {
+                    override fun onSuccess() {
+                        view.animate().alpha(1f).setDuration(600).start()
+                    }
+
+                    override fun onError(e: java.lang.Exception?) {
+
+                    }
+
+                })
+
+        }
+    }catch (e:Exception){
 
     }
 }

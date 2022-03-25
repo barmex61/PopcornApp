@@ -34,4 +34,5 @@ object Module {
     @Provides
     @Singleton
     fun injectRepositories(roomDao: RoomDao, movieApi: MovieApi)=ModelRepositories(roomDao,movieApi) as ModelRepositoriesInterface
+
 }

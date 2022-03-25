@@ -1,6 +1,7 @@
 package com.fatih.popcornapplication.view
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.fatih.popcornapplication.R
@@ -11,8 +12,10 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var fragmentFactory:FragmentFactories
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+        super.onCreate(null)
         supportFragmentManager.fragmentFactory=fragmentFactory
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)

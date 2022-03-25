@@ -52,8 +52,6 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
     private lateinit var colorMatrixColorFilter: ColorMatrixColorFilter
     private var isItInWatchList:Boolean?=false
     lateinit var roomEntity: RoomEntity
-    private var videoId:String?=null
-    private var counter=0
     private lateinit var button_animation:Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +105,7 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
             vibrantColor=DetailsFragmentArgs.fromBundle(it).vibrantColor
         }
         observeMovieLiveData()
+
 
     }
 
@@ -177,20 +176,6 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
                     }
                 }
 
-            }
-            viewModel.getVideos("movie",selectedId)
-            viewModel.videos.observe(viewLifecycleOwner){resource->
-                if(resource!=null){
-                    when(resource.status){
-                        Status.SUCCESS->{
-                            resource.data?.let {
-                                videoId=it.videoResults[0].key
-                            }
-                        }else ->{
-                            binding.isLoading=true
-                        }
-                    }
-                }
             }
         }
         selectedTvShowId?.let {
@@ -329,40 +314,12 @@ class DetailsFragment @Inject constructor( private var seasonAdapter:SeasonAdapt
         }
     }
     private fun youtube(){
-        if(counter%2==0){
-            binding.videoImage.setImageResource(R.drawable.ic_image)
-            binding.trailerText.text = "IMAGES"
-            binding.imgPlay.visibility=View.GONE
-            binding.saveImage.visibility=View.GONE
-            binding.posterImage.visibility=View.GONE
-            binding.youtuber.visibility=View.VISIBLE
-            lifecycle.addObserver(binding.youtuber)
-            binding.youtuber.enableAutomaticInitialization=true
-            binding.youtuber.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                override fun onReady(youTubePlayer: YouTubePlayer) {
-                    super.onReady(youTubePlayer)
-                    videoId?.let {
-                        youTubePlayer.loadVideo(it,0f)
-                    }
-
-                }
-            })
-
+        var id=if(selectedMovieId==null){
+            selectedTvShowId
         }else{
-            binding.youtuber.release()
-            binding.youtuber.visibility=View.GONE
-            binding.videoImage.setImageResource(R.drawable.ic_video)
-            binding.trailerText.text="TRAILER"
-            binding.imgPlay.visibility=View.VISIBLE
-            binding.saveImage.visibility=View.VISIBLE
-            binding.posterImage.visibility=View.VISIBLE
-
+            selectedMovieId
         }
-        counter++
+        findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToMoviePlayFragment(id!!))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.youtuber.release()
-    }
 }

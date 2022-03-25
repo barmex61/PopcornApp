@@ -11,6 +11,7 @@ import android.widget.Toast
 
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.WindowCompat
 
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -52,7 +53,9 @@ class MainFragment @Inject constructor(private val tvShowAdapter:TvShowAdapter,p
     private var tvShowSortPosition=0
     private var movieSortPosition=0
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         doInitialization()

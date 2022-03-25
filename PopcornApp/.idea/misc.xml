@@ -20,9 +20,20 @@
         <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/cardview_background4.xml" value="0.1245" />
         <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/circle_background.xml" value="0.1245" />
         <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/download_background.xml" value="0.1245" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/ic_baseline_play_circle_filled_24.xml" value="0.1325" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/ic_close.xml" value="0.1325" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/ic_dub.xml" value="0.1325" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/ic_facebook.xml" value="0.1325" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/ic_image.xml" value="0.1325" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/ic_play.xml" value="0.1325" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/drawable/ic_watch.xml" value="0.1325" />
         <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/layout/episodes_layout_row.xml" value="0.38446969696969696" />
         <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/layout/fragment_details.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/layout/fragment_main.xml" value="0.1" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/layout/fragment_movie_play.xml" value="0.25" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/layout/fragment_trailer_row.xml" value="0.33" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/layout/fragment_watch_list.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/layout/movie_recyclerview_row.xml" value="0.1" />
         <entry key="..\:/Users/90507/Desktop/applicatino/PopcornApp/app/src/main/res/layout/seasons_bottom_sheet_dialog.xml" value="0.17074275362318841" />
       </map>
     </option>

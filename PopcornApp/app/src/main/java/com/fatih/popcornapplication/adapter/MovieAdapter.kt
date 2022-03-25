@@ -59,7 +59,6 @@ class MovieAdapter @Inject constructor(): RecyclerView.Adapter<MovieAdapter.Movi
                     val vibrantColor=it!!.getVibrantColor(ContextCompat.getColor(holder.itemView.context,R.color.white))
                     val action=MainFragmentDirections.actionMainFragmentToDetailsFragment(movieList[position].id,vibrantColor,false)
                     Navigation.findNavController(view).navigate(action)
-                    println(vibrantColor)
                 }
             }
         }

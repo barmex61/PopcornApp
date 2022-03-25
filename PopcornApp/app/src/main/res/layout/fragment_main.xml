@@ -13,9 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/drawableLayout"
+        android:layoutAnimation="@anim/layout_animation"
         android:background="@color/black2">
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
+            android:animateLayoutChanges="true"
             android:layout_height="match_parent"
             >
 

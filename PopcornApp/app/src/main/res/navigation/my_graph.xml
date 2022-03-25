@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_detailsFragment_to_watchListFragment"
             app:destination="@id/watchListFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_moviePlayFragment"
+            app:destination="@id/moviePlayFragment" />
     </fragment>
     <fragment
         android:id="@+id/watchListFragment"
@@ -43,5 +46,13 @@
         <action
             android:id="@+id/action_watchListFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/moviePlayFragment"
+        android:name="com.fatih.popcornapplication.view.TrailerFragment"
+        android:label="MoviePlayFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 </navigation>
